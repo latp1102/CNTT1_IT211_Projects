@@ -1,98 +1,80 @@
-DROP DATABASE IF EXISTS badminton_booking;
-
-CREATE DATABASE badminton_booking;
-
-USE badminton_booking;
-
-CREATE TABLE users (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(100) NOT NULL UNIQUE,
-email VARCHAR(255) NOT NULL UNIQUE,
-password VARCHAR(255) NOT NULL,
-full_name VARCHAR(255),
-role ENUM(
-'ROLE_ADMIN',
-'ROLE_MANAGER',
-'ROLE_CUSTOMER'
-) NOT NULL,
-enabled BOOLEAN DEFAULT TRUE,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+drop database if exists badminton_booking;
+create database badminton_booking;
+use badminton_booking;
+create table users (
+	id bigint primary key auto_increment,
+	username varchar(100) not null unique,
+	email varchar(255) not null unique,
+	password varchar(255) not null,
+	full_name varchar(255),
+	role enum('ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER') not null,
+	enabled boolean default true,
+	created_at timestamp default current_timestamp
 );
 
-CREATE TABLE refresh_tokens (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-token VARCHAR(500) NOT NULL UNIQUE,
-expiry_date DATETIME NOT NULL,
-user_id BIGINT NOT NULL,
-CONSTRAINT fk_refresh_user
-    FOREIGN KEY (user_id)
-    REFERENCES users(id)
+create table refresh_tokens (
+	id bigint primary key auto_increment,
+	token varchar(500) not null unique,
+	expiry_date datetime not null,
+	user_id bigint not null,
+	constraint fk_refresh_user foreign key (user_id) references users(id)
 );
 
-CREATE TABLE token_blacklist (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-token VARCHAR(500) NOT NULL,
-expiry_date DATETIME NOT NULL
+create table token_blacklist (
+	id bigint primary key auto_increment,
+    token varchar(500) not null,
+    expiry_date datetime not null
 );
 
-CREATE TABLE courts (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-name VARCHAR(255) NOT NULL,
-address VARCHAR(500),
-price DECIMAL(12,2) NOT NULL,
-description TEXT,
-image_url VARCHAR(1000),
-active BOOLEAN DEFAULT TRUE
+create table courts (
+	id bigint primary key auto_increment,
+	name varchar(255) not null,
+	address varchar(500),
+	price decimal(12,2) not null,
+	description text,
+	image_url varchar(1000),
+	active boolean default true
 );
 
-CREATE TABLE court_images (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-image_url VARCHAR(1000) NOT NULL,
-court_id BIGINT NOT NULL,
-CONSTRAINT fk_court_image
-    FOREIGN KEY (court_id)
-    REFERENCES courts(id)
+create table court_images (
+	id bigint primary key auto_increment,
+	image_url varchar(1000) not null,
+	court_id bigint not null,
+	constraint fk_court_image foreign key (court_id) references courts(id)
 );
 
-CREATE TABLE bookings (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-booking_date DATE NOT NULL,
-start_time TIME NOT NULL,
-end_time TIME NOT NULL,
-status ENUM(
-    'PENDING',
-    'APPROVED',
-    'REJECTED'
-) DEFAULT 'PENDING',
-note VARCHAR(500),
-user_id BIGINT NOT NULL,
-court_id BIGINT NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-CONSTRAINT fk_booking_user
-    FOREIGN KEY (user_id)
-    REFERENCES users(id),
-CONSTRAINT fk_booking_court
-    FOREIGN KEY (court_id)
-    REFERENCES courts(id)
+create table bookings (
+	id bigint primary key auto_increment,
+	booking_date date not null,
+	start_time time not null,
+	end_time time not null,
+	status enum('PENDING','APPROVED','REJECTED') default 'PENDING',
+	note varchar(500),
+	user_id bigint not null,
+	court_id bigint not null,
+	created_at timestamp default current_timestamp,
+	constraint fk_booking_user foreign key (user_id) references users(id),
+    constraint fk_booking_court foreign key (court_id) references courts(id)
 );
 
-CREATE TABLE audit_logs (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(255),
-action VARCHAR(500),
-status VARCHAR(50),
-created_at DATETIME);
+create table audit_logs (
+	id bigint primary key auto_increment,
+	username varchar(255),
+	action varchar(500),
+	status varchar(50),
+	created_at datetime
+);
 
-INSERT INTO users (username,email,password,full_name,role,enabled)
-VALUES('admin','[admin@gmail.com](mailto:admin@gmail.com)','$2a$10$7EqJtq98hPqEX7fNZaFWoOHiY7R6czS4EzFqqpwPIYOvTo95Ofzmi','System Administrator','ROLE_ADMIN',TRUE),
+insert into users (username,email,password,full_name,role,enabled)
+values('admin','[admin@gmail.com](mailto:admin@gmail.com)','$2a$10$7EqJtq98hPqEX7fNZaFWoOHiY7R6czS4EzFqqpwPIYOvTo95Ofzmi','System Administrator','ROLE_ADMIN',TRUE),
 ('manager','[manager@gmail.com](mailto:manager@gmail.com)','$2a$10$7EqJtq98hPqEX7fNZaFWoOHiY7R6czS4EzFqqpwPIYOvTo95Ofzmi','Court Manager','ROLE_MANAGER',TRUE),
 ('customer','[customer@gmail.com](mailto:customer@gmail.com)','$2a$10$7EqJtq98hPqEX7fNZaFWoOHiY7R6czS4EzFqqpwPIYOvTo95Ofzmi','Customer Demo','ROLE_CUSTOMER',TRUE);
 
-INSERT INTO courts (name,address,price,description,image_url,active)
-VALUES('Court A','Thanh Xuan, Ha Noi',120000,'San trong nha','https://demo-image.com/court-a.jpg',TRUE),
+insert into courts (name,address,price,description,image_url,active)
+values('Court A','Thanh Xuan, Ha Noi',120000,'San trong nha','https://demo-image.com/court-a.jpg',TRUE),
 ('Court B','Cau Giay, Ha Noi',150000,'San tieu chuan thi dau','https://demo-image.com/court-b.jpg',TRUE);
-INSERT INTO bookings (booking_date,start_time,end_time,status,note,user_id,court_id)
-VALUES(CURDATE(),'18:00:00','20:00:00','PENDING','Dat san buoi toi',3,1);
+insert into bookings (booking_date,start_time,end_time,status,note,user_id,court_id)
+values(curdate(),'18:00:00','20:00:00','PENDING','Dat san buoi toi',3,1);
 
-INSERT INTO audit_logs (username,action,status,created_at)
-VALUES('customer','CREATE_BOOKING','SUCCESS',NOW());
+insert into audit_logs (username,action,status,created_at)
+values('customer','CREATE_BOOKING','SUCCESS',now());
