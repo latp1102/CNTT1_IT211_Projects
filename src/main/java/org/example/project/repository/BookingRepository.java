@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByCustomer(User customer);
-    boolean existsByCourtAndBookingDateAndTimeSlotAndStatus(Court court, LocalDate bookingDate, TimeSlot timeSlot, List<BookingStatus> statuses);
-
+//    boolean existsByCourtAndBookingDateAndTimeSlotAndStatus(Court court, LocalDate bookingDate, TimeSlot timeSlot, List<BookingStatus> statuses);
+boolean existsByCourtAndBookingDateAndTimeSlotAndStatus(
+        Court court,
+        LocalDate bookingDate,
+        TimeSlot timeSlot,
+        BookingStatus status
+);
     boolean existsByCourtAndBookingDateAndTimeSlotAndStatusIn(Court court, LocalDate bookingDate, TimeSlot timeSlot, Collection<BookingStatus> statuses);
 }

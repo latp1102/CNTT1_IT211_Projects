@@ -13,6 +13,6 @@ public class TokenCleanupJob {
     private final TokenBlackistRepository tokenBlackistRepository;
     @Scheduled(cron = "0 0 0 * * ?")
     public void cleanup(){
-        tokenBlackistRepository.deleteByExpiredAtBefore(LocalDateTime.now());
+        tokenBlackistRepository.deleteByExpiryDateBefore(LocalDateTime.now());
     }
 }
