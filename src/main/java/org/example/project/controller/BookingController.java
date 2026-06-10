@@ -1,0 +1,35 @@
+package org.example.project.controller;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.example.project.dto.request.BookingRequest;
+import org.example.project.dto.response.BookingResponse;
+import org.example.project.dto.response.ResponseDTO;
+import org.example.project.service.BookingService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/customer/bookings")
+@RequiredArgsConstructor
+public class BookingController {
+    private final BookingService bookingService;
+    @PostMapping
+    public ResponseEntity<ResponseDTO<BookingResponse>> createBooking(@Valid @RequestBody BookingRequest request) {
+        return ResponseEntity.ok(ResponseDTO.<BookingResponse>builder()
+                .success(true)
+                .message("Đặt phòng thành công")
+                .data(bookingService.createBooking(request))
+                .build());
+    }
+    @GetMapping("/history")
+    public ResponseEntity<ResponseDTO<List<BookingResponse>>> history() {
+        return ResponseEntity.ok(ResponseDTO.<List<BookingResponse>>builder()
+                .success(true)
+                .message("Lịch sử đặt phòng")
+                .data(bookingService.myBooking())
+                .build());
+    }
+}
