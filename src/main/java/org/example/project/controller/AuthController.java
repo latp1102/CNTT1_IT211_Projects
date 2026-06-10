@@ -34,6 +34,9 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ResponseDTO<Void>> logout(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            throw new RuntimeException("khong đủ để ủy quyền");
+        }
         String token = header.substring(7);
         authService.logout(token);
         return new ResponseEntity<>(ResponseDTO.<Void>builder().success(true).message("logout thành công").build(), HttpStatus.OK);
