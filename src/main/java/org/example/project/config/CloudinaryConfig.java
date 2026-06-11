@@ -8,22 +8,16 @@ import java.util.Map;
 
 @Configuration
 public class CloudinaryConfig {
-
     @Value("${cloudinary.cloud-name}")
     private String cloudName;
-
     @Value("${cloudinary.api-key}")
     private String apiKey;
-
     @Value("${cloudinary.api-secret}")
     private String apiSecret;
-
     @Bean
     public Cloudinary cloudinary(){
-
         return new Cloudinary(
-                Map.of(
-                        "cloud_name",
+                Map.of("cloud_name",
                         cloudName,
                         "api_key",
                         apiKey,
