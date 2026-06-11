@@ -27,17 +27,17 @@ public class BookingService {
         User customer = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("không tìm thấy user"));
         Court court = courtRepository.findById(request.getCourtId()).orElseThrow(() -> new RuntimeException("không tìm thấy sân"));
         TimeSlot timeSlot = timeSlotRepository.findById(request.getTimeSlotId()).orElseThrow(() -> new RuntimeException("không tìm thấy thời gian"));
-        boolean exists =
-                bookingRepository
-                        .existsByCourtAndBookingDateAndTimeSlotAndStatusIn(
-                                court,
-                                request.getBookingDate(),
-                                timeSlot,
-                                List.of(
-                                        BookingStatus.PENDING,
-                                        BookingStatus.CONFIRMED
-                                )
-                        );
+        boolean exists = bookingRepository
+                .existsByCourtAndBookingDateAndTimeSlotAndStatusIn(
+                        court,
+                        request.getBookingDate(),
+                        timeSlot,
+                        List.of(
+                                BookingStatus.PENDING,
+//                              BookingStatus.CONFIRMED,
+                                BookingStatus.APPROVED
+                        )
+                );
         if(exists){
                 throw new BookingConflictException("Court đã đặt lịch");
         }
@@ -57,12 +57,14 @@ public class BookingService {
         User customer = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("không tìm thấy user"));
         return bookingRepository.findByCustomer(customer).stream().map(BookingResponse::fromEntity).toList();
     }
+    //t
     public BookingResponse approveBooking(Long bookingId){
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("không tìm thấy booking"));
-        booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setStatus(BookingStatus.APPROVED);
         bookingRepository.save(booking);
         return BookingResponse.fromEntity(booking);
     }
+    //d
     public BookingResponse rejectBooking(Long bookingId){
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("không tìm thấy booking"));
         booking.setStatus(BookingStatus.REJECTED);

@@ -3,7 +3,7 @@ package org.example.project.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.project.dto.request.UserCreateRequest;
-import org.example.project.dto.request.UserResponse;
+import org.example.project.dto.response.UserResponse;
 import org.example.project.dto.request.UserUpdateRequest;
 import org.example.project.dto.response.ResponseDTO;
 import org.example.project.service.UserService;

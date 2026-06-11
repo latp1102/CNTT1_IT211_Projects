@@ -110,23 +110,15 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-
     @Value("${spring.jwt.secret-key}")
     private String secretKey;
-
     private SecretKey key;
-
     @PostConstruct
     public void init() {
-        key = Keys.hmacShaKeyFor(
-                secretKey.getBytes(StandardCharsets.UTF_8)
-        );
+        key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
-
     private final long expiration = 900000;
-
     private final long refreshExpiration = 86400000;
-
     public String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getUsername())

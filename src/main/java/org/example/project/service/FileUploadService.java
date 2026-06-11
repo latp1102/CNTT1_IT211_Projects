@@ -10,28 +10,12 @@
 //@Service
 //@RequiredArgsConstructor
 //public class FileUploadService {
-//
 //    private final Cloudinary cloudinaryConfig;
-//
-//    public String upload(
-//            MultipartFile file
-//    ){
-//
+//    public String upload(MultipartFile file){
 //        try{
-//
-//            Map result =
-//                    cloudinaryConfig.uploader()
-//                            .upload(
-//                                    file.getBytes(),
-//                                    Map.of()
-//                            );
-//
-//            return result
-//                    .get("secure_url")
-//                    .toString();
-//
+//            Map result = cloudinaryConfig.uploader().upload(file.getBytes(), Map.of());
+//            return result.get("secure_url").toString();
 //        }catch (Exception ex){
-//
 //            throw new RuntimeException(
 //                    "Cloud upload failed"
 //            );

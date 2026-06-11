@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.project.dto.request.*;
 import org.example.project.dto.response.LoginResponse;
 import org.example.project.dto.response.ResponseDTO;
-import org.example.project.entity.RefreshToken;
-import org.example.project.entity.Role;
-import org.example.project.entity.TokenBlacklist;
-import org.example.project.entity.User;
+import org.example.project.entity.*;
 import org.example.project.exception.UserNotFoundException;
 import org.example.project.repository.RefreshTokenRepository;
 import org.example.project.repository.TokenBlackistRepository;
@@ -23,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -41,12 +40,14 @@ public class AuthService {
         if (userRepository.existsByUsername(request.getUsername())){
             throw new IllegalArgumentException("người dùng đã tồn tại");
         }
+        Set<RoleEntity> roles = new HashSet<>();
+        roles.add(RoleEntity.builder().role(Role.ROLE_CUSTOMER).build());
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-                .role(request.getRole() == null ? Role.ROLE_CUSTOMER : request.getRole())
+//                .role(Role.ROLE_CUSTOMER)
                 .enabled(true)
                 .build();
         userRepository.save(user);

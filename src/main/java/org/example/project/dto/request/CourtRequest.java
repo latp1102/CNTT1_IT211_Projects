@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
-public class CourtrRequest {
+public class CourtRequest {
     private String name;
     private String address;
     private BigDecimal price;

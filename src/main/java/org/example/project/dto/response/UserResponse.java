@@ -1,4 +1,4 @@
-package org.example.project.dto.request;
+package org.example.project.dto.response;
 
 import lombok.*;
 import org.example.project.entity.Role;

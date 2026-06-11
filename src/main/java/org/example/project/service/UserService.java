@@ -2,7 +2,7 @@ package org.example.project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.project.dto.request.UserCreateRequest;
-import org.example.project.dto.request.UserResponse;
+import org.example.project.dto.response.UserResponse;
 import org.example.project.dto.request.UserUpdateRequest;
 import org.example.project.entity.User;
 import org.example.project.exception.UserNotFoundException;
