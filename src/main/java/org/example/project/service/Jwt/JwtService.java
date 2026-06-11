@@ -138,16 +138,10 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(
-                                System.currentTimeMillis()
-                                        + refreshExpiration
-                        )
-                )
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .signWith(key)
                 .compact();
     }
-
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
