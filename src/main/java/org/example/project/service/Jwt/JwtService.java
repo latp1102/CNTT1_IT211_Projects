@@ -157,7 +157,6 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
     public boolean isValid(String token) {
         try {
             extractAllClaims(token);

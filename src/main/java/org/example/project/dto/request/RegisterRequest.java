@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.project.entity.Role;
 import org.springframework.stereotype.Service;
 
 @NoArgsConstructor
@@ -24,5 +23,4 @@ public class RegisterRequest {
     private String password;
     @NotBlank(message = "Không để trống họ và tên")
     private String fullName;
-    private Role role;
 }

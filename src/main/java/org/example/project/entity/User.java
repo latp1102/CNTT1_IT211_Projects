@@ -26,11 +26,12 @@ public class User {
     private String fullName;
     @Builder.Default
     private Boolean enabled = true;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Set<RoleEntity> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
-
 }

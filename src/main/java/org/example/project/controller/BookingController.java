@@ -32,4 +32,28 @@ public class BookingController {
                 .data(bookingService.myBooking())
                 .build());
     }
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<BookingResponse>>> getAllBookings() {
+        return ResponseEntity.ok(ResponseDTO.<List<BookingResponse>>builder()
+                .success(true)
+                .message("Danh sách đặt phòng")
+                .data(bookingService.getAllBookings())
+                .build());
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDTO<BookingResponse>> updateBooking(@PathVariable Long id, @Valid @RequestBody BookingRequest request) {
+        return ResponseEntity.ok(ResponseDTO.<BookingResponse>builder()
+                .success(true)
+                .message("Cập nhật đặt phòng thành công")
+                .data(bookingService.updateBooking(id, request))
+                .build());
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<Void>> cancelBooking(@PathVariable Long id) {
+        bookingService.deleteBooking(id);
+        return ResponseEntity.ok(ResponseDTO.<Void>builder()
+                .success(true)
+                .message("Hủy đặt phòng thành công")
+                .build());
+        }
 }

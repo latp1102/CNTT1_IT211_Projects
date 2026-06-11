@@ -71,4 +71,28 @@ public class BookingService {
         bookingRepository.save(booking);
         return BookingResponse.fromEntity(booking);
     }
+    public List<BookingResponse> getAllBookings(){
+        return bookingRepository.findAll().stream().map(BookingResponse::fromEntity).toList();
+    }
+    public BookingResponse updateBooking(Long bookingId, BookingRequest request){
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("không tìm thấy booking"));
+        Court court = courtRepository.findById(request.getCourtId()).orElseThrow(() -> new RuntimeException("không tìm thấy sân"));
+        TimeSlot timeSlot = timeSlotRepository.findById(request.getTimeSlotId()).orElseThrow(() -> new RuntimeException("không tìm thấy thời gian"));
+        booking.setCourt(court);
+        booking.setTimeSlot(timeSlot);
+        boolean exists = bookingRepository.existsByCourtAndBookingDateAndTimeSlotAndStatusIn(court, request.getBookingDate(),timeSlot,List.of(BookingStatus.PENDING, BookingStatus.APPROVED));
+        if(exists) {
+            throw new BookingConflictException("Khung giờ đã được đặt lịch");
+        }
+        booking.setCourt(court);
+        booking.setTimeSlot(timeSlot);
+        booking.setBookingDate(request.getBookingDate());
+        bookingRepository.save(booking);
+        return BookingResponse.fromEntity(booking);
+    }
+    public BookingResponse deleteBooking(Long bookingId){
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("không tìm thấy booking"));
+        bookingRepository.delete(booking);
+        return BookingResponse.fromEntity(booking);
+    }
 }
