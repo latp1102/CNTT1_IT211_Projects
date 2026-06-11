@@ -49,11 +49,11 @@ public class BookingController {
                 .build());
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Void>> cancelBooking(@PathVariable Long id) {
-        bookingService.deleteBooking(id);
-        return ResponseEntity.ok(ResponseDTO.<Void>builder()
+    public ResponseEntity<ResponseDTO<BookingResponse>> deleteBooking(@PathVariable Long id) {
+        return ResponseEntity.ok(ResponseDTO.<BookingResponse>builder()
                 .success(true)
-                .message("Hủy đặt phòng thành công")
+                .message("Xóa đặt phòng thành công")
+                .data(bookingService.deleteBooking(id))
                 .build());
-        }
+    }
 }
