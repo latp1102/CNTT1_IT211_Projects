@@ -52,6 +52,7 @@ public class AuthController {
     }
     @PostMapping("/forgot-password")
     public ResponseEntity<ResponseDTO<String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        authService.forgotPassword(request);
         return ResponseEntity.ok(ResponseDTO.<String>builder()
                 .success(true)
                 .message("mật khẩu mới được tạo")
