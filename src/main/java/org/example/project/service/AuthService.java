@@ -40,14 +40,14 @@ public class AuthService {
         if (userRepository.existsByUsername(request.getUsername())){
             throw new IllegalArgumentException("người dùng đã tồn tại");
         }
-        Set<RoleEntity> roles = new HashSet<>();
-        roles.add(RoleEntity.builder().role(Role.ROLE_CUSTOMER).build());
+//        Set<RoleEntity> roles = new HashSet<>();
+//        roles.add(RoleEntity.builder().role(Role.ROLE_CUSTOMER).build());
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
-//                .role(Role.ROLE_CUSTOMER)
+                .role(Role.ROLE_CUSTOMER)
                 .enabled(true)
                 .build();
         userRepository.save(user);
