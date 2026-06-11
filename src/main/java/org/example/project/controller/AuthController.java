@@ -42,38 +42,21 @@ public class AuthController {
         return new ResponseEntity<>(ResponseDTO.<Void>builder().success(true).message("logout thành công").build(), HttpStatus.OK);
     }
     @PutMapping("/change-password")
-    public ResponseEntity<ResponseDTO<Void>>
-    changePassword(@Valid @RequestBody ChangePasswordRequest request){
+    public ResponseEntity<ResponseDTO<Void>> changePassword(@Valid @RequestBody ChangePasswordRequest request){
         authService.changePassword(request);
-
-        return ResponseEntity.ok(
-                ResponseDTO.<Void>builder()
-                        .success(true)
-                        .message(
-                                "Password changed successfully"
-                        )
-                        .build()
+        return ResponseEntity.ok(ResponseDTO.<Void>builder()
+                .success(true)
+                .message("thay đổi mật khẩu thành công")
+                .build()
         );
     }
     @PostMapping("/forgot-password")
-    public ResponseEntity<ResponseDTO<String>>
-    forgotPassword(
-            @Valid
-            @RequestBody
-            ForgotPasswordRequest request
-    ){
-
-        return ResponseEntity.ok(
-                ResponseDTO.<String>builder()
-                        .success(true)
-                        .message(
-                                "New password generated"
-                        )
-                        .data(
-                                authService
-                                        .forgotPassword(request)
-                        )
-                        .build()
+    public ResponseEntity<ResponseDTO<String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        return ResponseEntity.ok(ResponseDTO.<String>builder()
+                .success(true)
+                .message("mật khẩu mới được tạo")
+                .data(authService.forgotPassword(request))
+                .build()
         );
     }
 
