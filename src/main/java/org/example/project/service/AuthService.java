@@ -1,6 +1,5 @@
 package org.example.project.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.project.dto.request.*;
 import org.example.project.dto.response.LoginResponse;
@@ -20,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Service

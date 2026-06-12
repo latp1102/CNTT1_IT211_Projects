@@ -118,7 +118,7 @@ public class JwtService {
         key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
     private final long expiration = 900000;
-    private final long refreshExpiration = 86400000;
+    private final long refreshExpiration = 604800000;
     public String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getUsername())

@@ -16,9 +16,7 @@ public class FileUploadService {
             Map result = cloudinaryConfig.uploader().upload(file.getBytes(), Map.of());
             return result.get("secure_url").toString();
         }catch (Exception ex){
-            throw new RuntimeException(
-                    "Cloud upload failed"
-            );
+            throw new RuntimeException("Upload file thất bại");
         }
     }
 }
